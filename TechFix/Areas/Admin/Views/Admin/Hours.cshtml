@@ -1,0 +1,4 @@
+@{ Layout = "_Layout"; }
+@model IEnumerable<BusinessHour>
+@{ ViewData["Title"]="Horarios"; }
+<section class="container page-section admin-shell"><partial name="_AdminNav" /><div class="admin-main"><div class="page-heading"><div><span class="kicker">DISPONIBILIDAD</span><h1>Horarios de atención</h1></div></div><div class="hour-list">@foreach(var h in Model){<form asp-action="Hours" method="post" class="panel hour-row"><input type="hidden" name="id" value="@h.Id" /><strong>@h.Day</strong><label><input type="checkbox" name="isOpen" value="true" checked="@h.IsOpen" /> Abierto</label><label>Apertura <input type="time" name="opensAt" value="@h.OpensAt.ToString(@"hh\:mm")" /></label><label>Cierre <input type="time" name="closesAt" value="@h.ClosesAt.ToString(@"hh\:mm")" /></label><button type="submit" class="btn-outline-tech">Guardar</button></form>}</div></div></section>

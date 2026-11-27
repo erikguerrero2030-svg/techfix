@@ -1,0 +1,47 @@
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07111f" />
+    <title>@ViewData["Title"] · TechFix</title>
+    <link rel="icon" href="~/images/logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/techfix.css" asp-append-version="true" />
+</head>
+<body>
+<header class="site-header">
+    <nav class="container nav-shell" aria-label="Navegación principal">
+        <a asp-area="" asp-controller="Home" asp-action="Index" class="brand"><img src="~/images/logo.svg" alt="" width="34" height="34" /><span>Tech<span>Fix</span></span></a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-links" aria-label="Abrir menú">☰</button>
+        <div id="site-links" class="nav-links">
+            <a asp-area="" asp-controller="Home" asp-action="Index" asp-fragment="servicios">Servicios</a>
+            <a asp-area="" asp-controller="Home" asp-action="Index" asp-fragment="sostenibilidad">Sostenibilidad</a>
+            <a asp-area="" asp-controller="Home" asp-action="Index" asp-fragment="contacto">Contacto</a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                @if (User.IsInRole("Administrador")) { <a asp-area="Admin" asp-controller="Admin" asp-action="Index">Panel admin</a> }
+                @if (User.IsInRole("Tecnico")) { <a asp-area="" asp-controller="Technician" asp-action="Index">Mis reparaciones</a> }
+                @if (User.IsInRole("Cliente")) { <a asp-area="" asp-controller="Appointments" asp-action="Index">Mis citas</a> }
+                <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="inline-form"><button type="submit" class="nav-logout">Salir</button></form>
+            }
+            else
+            {
+                <a asp-area="" asp-controller="Account" asp-action="Login">Ingresar</a>
+                <a asp-area="" asp-controller="Account" asp-action="Register" class="nav-cta">Crear cuenta</a>
+            }
+        </div>
+    </nav>
+</header>
+<main>
+@if (TempData["Message"] is string message) { <div class="container mt-4"><div class="alert alert-success">@message</div></div> }
+@if (TempData["Error"] is string error) { <div class="container mt-4"><div class="alert alert-danger">@error</div></div> }
+@RenderBody()
+</main>
+<footer class="site-footer"><div class="container footer-inner"><div><strong>TechFix</strong><p>Reparamos tu tecnología, prolongamos su vida.</p></div><div><span>Atención para estudiantes universitarios</span><p>Contacto y horarios configurables desde el panel.</p></div><span>© @DateTime.Now.Year TechFix</span></div></footer>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/techfix.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body></html>

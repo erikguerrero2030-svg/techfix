@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="TechFix.Tests/TechFix.Tests.csproj" />
+  <Project Path="TechFix/TechFix.csproj" />
+</Solution>

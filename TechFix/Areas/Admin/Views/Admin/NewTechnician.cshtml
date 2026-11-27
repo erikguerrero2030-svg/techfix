@@ -1,0 +1,5 @@
+@{ Layout = "_Layout"; }
+@model TechnicianVm
+@{ ViewData["Title"]="Crear técnico"; }
+<section class="container page-section admin-shell"><partial name="_AdminNav" /><div class="admin-main"><div class="page-heading"><div><span class="kicker">EQUIPO</span><h1>Crear cuenta de técnico</h1></div></div><div class="form-card"><form asp-action="NewTechnician" method="post"><div asp-validation-summary="ModelOnly" class="text-danger"></div><label asp-for="FullName">Nombre completo</label><input asp-for="FullName" /><span asp-validation-for="FullName" class="text-danger"></span><label asp-for="Email">Correo</label><input asp-for="Email" /><span asp-validation-for="Email" class="text-danger"></span><label asp-for="Specialty">Especialidad</label><input asp-for="Specialty" /><label asp-for="Password">Contraseña inicial</label><input asp-for="Password" type="password" autocomplete="new-password" /><span asp-validation-for="Password" class="text-danger"></span><button class="btn-primary-tech" type="submit">Crear técnico</button></form></div></div></section>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

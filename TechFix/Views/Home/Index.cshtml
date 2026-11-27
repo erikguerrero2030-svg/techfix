@@ -1,0 +1,36 @@
+@model IEnumerable<ServiceItem>
+@{ ViewData["Title"] = "Mantenimiento de computadoras"; }
+<section class="hero"><div class="container hero-grid">
+<div class="hero-copy reveal"><div class="eyebrow"><span class="pulse-dot"></span> SOPORTE TÉCNICO EN TULCÁN</div>
+<h1>Que tu equipo vuelva a <em>dar lo mejor.</em></h1>
+<p class="hero-lead">Diagnóstico, mantenimiento y reparación de computadoras y laptops. Reserva tu cita y conoce el avance desde tu cuenta.</p>
+<p class="hero-slogan">Tu equipo en buenas manos, paso a paso.</p>
+<div class="hero-actions"><a asp-controller="Appointments" asp-action="Create" class="btn-primary-tech">Agendar una cita</a><a href="#servicios" class="btn-outline-tech">Explorar servicios</a></div>
+<div class="hero-trust"><span>✓ Precios claros</span><span>✓ Cita en línea</span><span>✓ Seguimiento por etapas</span></div>
+</div>
+<div class="hero-art reveal"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="hero-art-frame"><span class="hero-art-label">TECHFIX / SERVICIO TÉCNICO</span><img src="~/images/hero-device.svg" alt="Ilustración de una laptop en revisión técnica" /><div class="art-caption"><span class="pulse-dot"></span> Diagnóstico → Reparación → Entrega</div></div></div>
+</div></section>
+<div class="value-strip"><div class="container value-strip-inner"><div><strong>01</strong><span>Cuéntanos qué sucede</span></div><div><strong>02</strong><span>Reserva tu horario</span></div><div><strong>03</strong><span>Sigue cada avance</span></div></div></div>
+<section id="servicios" class="section container"><div class="section-heading reveal"><div><span class="kicker">QUÉ HACEMOS</span><h2>Servicios que tu equipo necesita</h2></div><p>Elige una solución, reserva un horario disponible y sigue el avance desde tu cuenta.</p></div>
+<div class="service-grid">@foreach (var service in Model) { <article class="service-card reveal"><div class="service-art"><img src="~/images/service-@(service.Icon).svg" alt="" /></div><div class="service-body"><span class="service-number">TECHFIX / @service.Id.ToString("00")</span><h3>@service.Name</h3><p>@service.Description</p><div class="service-bottom"><strong>$@service.Price.ToString("0.00")</strong><a asp-controller="Appointments" asp-action="Create" aria-label="Agendar @service.Name">Agendar <span aria-hidden="true">↗</span></a></div></div></article> }</div>
+</section>
+<section class="process-section"><div class="container"><div class="section-heading reveal"><div><span class="kicker">ASÍ FUNCIONA</span><h2>Un proceso claro, de principio a fin</h2></div></div><div class="process-grid"><div class="process-step reveal"><b>01</b><h3>Cuéntanos qué sucede</h3><p>Registra tu equipo, describe el problema y elige un horario.</p></div><div class="process-step reveal"><b>02</b><h3>Seguimos cada etapa</h3><p>Consulta tu código, el diagnóstico y el historial de estados.</p></div><div class="process-step reveal"><b>03</b><h3>Recupera tu equipo</h3><p>Autoriza la reparación y revisa el resultado antes de la entrega.</p></div></div></div></section>
+<section id="sostenibilidad" class="section container sustainability"><div class="sustain-card reveal"><div><span class="kicker">IMPACTO REAL</span><h2>Reparar también es cuidar</h2><p>Dar más vida a un computador ayuda a evitar reemplazos prematuros. Registramos los equipos reparados con datos del sistema y compartimos consejos de mantenimiento responsable.</p><ul><li>Limpia las ventilaciones con regularidad.</li><li>Mantén copias de seguridad de tus archivos.</li><li>Lleva componentes inservibles a un punto de reciclaje autorizado.</li></ul></div><div class="impact-number"><strong>@ViewBag.Repaired</strong><span>equipos reparados registrados</span><small>Indicador calculado con reparaciones del sistema.</small></div></div></section>
+<section class="section container faq-section"><div class="section-heading"><div><span class="kicker">PREGUNTAS FRECUENTES</span><h2>Todo claro antes de empezar</h2></div></div><div class="faq-grid"><details><summary>¿Cómo reservo una cita?</summary><p>Crea tu cuenta, elige un servicio y selecciona un horario disponible. Tu solicitud aparecerá en «Mis citas».</p></details><details><summary>¿Cómo veo el avance?</summary><p>Ingresa a tu cuenta y abre la reparación. Allí encontrarás el estado, el diagnóstico y los cambios registrados.</p></details><details><summary>¿Cuándo autorizo la reparación?</summary><p>Cuando el técnico registre el diagnóstico, podrás revisar la propuesta y autorizar el siguiente paso desde tu cuenta.</p></details></div></section>
+<section id="contacto" class="section container">
+    <div class="section-heading"><div><span class="kicker">CONTACTO</span><h2>Estamos para ayudarte</h2></div><p>Agenda desde tu cuenta para recibir seguimiento de cada etapa.</p></div>
+    <div class="panel contact-panel">
+        <div><p>Atendemos solicitudes de mantenimiento, diagnóstico y reparación de computadoras y laptops.</p>
+            @if (!string.IsNullOrWhiteSpace((string?)ViewBag.ContactCity)) { <p><b>Ciudad:</b> @ViewBag.ContactCity</p> }
+            @if (!string.IsNullOrWhiteSpace((string?)ViewBag.ContactEmail)) { <p><b>Correo:</b> <a href="mailto:@ViewBag.ContactEmail">@ViewBag.ContactEmail</a></p> }
+            @foreach (var phone in (string[])ViewBag.ContactPhones)
+            {
+                var digits = new string(phone.Where(char.IsDigit).ToArray());
+                var whatsApp = digits.StartsWith("0") ? "593" + digits.Substring(1) : digits;
+                <p><b>Teléfono:</b> <a href="tel:@digits">@phone</a> · <a href="https://wa.me/@whatsApp" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a></p>
+            }
+        </div>
+        <a asp-controller="Appointments" asp-action="Create" class="btn-primary-tech">Solicitar atención</a>
+    </div>
+</section>
+<section class="cta-section"><div class="container cta-inner"><div><span class="kicker">¿LISTO PARA EMPEZAR?</span><h2>Tu equipo tiene solución.</h2><p>Reserva una cita y conoce cada paso del proceso.</p></div><a asp-controller="Appointments" asp-action="Create" class="btn-primary-tech">Agendar ahora</a></div></section>

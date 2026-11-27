@@ -1,0 +1,4 @@
+@{ Layout = "_Layout"; }
+@model IEnumerable<ClientProfile>
+@{ ViewData["Title"]="Clientes"; }
+<section class="container page-section admin-shell"><partial name="_AdminNav" /><div class="admin-main"><div class="page-heading"><div><span class="kicker">USUARIOS</span><h1>Clientes</h1></div></div><div class="table-wrap"><table class="tech-table"><thead><tr><th>Nombre</th><th>Correo</th><th>Registro</th><th>Estado</th><th></th></tr></thead><tbody>@foreach(var c in Model){<tr><td>@c.User.FullName</td><td>@c.User.Email</td><td>@c.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy")</td><td>@(c.User.IsActive?"Activo":"Desactivado")</td><td><form asp-action="ToggleClient" asp-route-id="@c.UserId" method="post"><button type="submit" class="link-action">@(c.User.IsActive?"Desactivar":"Activar")</button></form></td></tr>}</tbody></table></div></div></section>
