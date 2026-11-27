@@ -16,7 +16,7 @@ if (!string.IsNullOrWhiteSpace(databaseUrl))
     var credentials = url.UserInfo.Split(':', 2);
     if (credentials.Length != 2) throw new InvalidOperationException("DATABASE_URL no contiene credenciales válidas.");
     var pg = new NpgsqlConnectionStringBuilder {
-        Host = url.Host, Port = url.Port, Database = Uri.UnescapeDataString(url.AbsolutePath.TrimStart('/')),
+        Host = url.Host, Port = url.Port > 0 ? url.Port : 5432, Database = Uri.UnescapeDataString(url.AbsolutePath.TrimStart('/')),
         Username = Uri.UnescapeDataString(credentials[0]), Password = Uri.UnescapeDataString(credentials[1]),
         SslMode = SslMode.Prefer
     };
